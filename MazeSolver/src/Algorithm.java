@@ -49,7 +49,7 @@ public class Algorithm {
 		currMaze[0][1].needVisit = true;
 		toVisit.add(currMaze[0][1]);
 		
-		targets = new Node[]{currMaze[8][8], currMaze[8][9], currMaze[9][8], currMaze[9][9]};
+		targets = new Node[]{currMaze[7][7], currMaze[7][8], currMaze[8][7], currMaze[8][8]};
 	}
 	
 	public boolean verify(){

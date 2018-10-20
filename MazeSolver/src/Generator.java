@@ -43,10 +43,10 @@ public class Generator {
 		
 		int mazeOp = gen.nextInt(8);
 		int counter = 0;
-		for(int i = 8; i<10; i++){
-			for(int j = 8; j<10; j++){
+		for(int i = 7; i<9; i++){
+			for(int j = 7; j<9; j++){
 				if(counter!=mazeOp){
-					if(i==8){
+					if(i==7){
 						currMaze[i][j].makeWall(1);
 						currMaze[i][j].makeNoWall(3);
 					}else{
@@ -54,7 +54,7 @@ public class Generator {
 						currMaze[i][j].makeNoWall(1);
 					}
 				}else{
-					if(i==8){
+					if(i==7){
 						currMaze[i][j].makeNoWall(1);
 					}else{
 						currMaze[i][j].makeNoWall(3);
@@ -62,7 +62,7 @@ public class Generator {
 				}
 				counter++;
 				if(counter!=mazeOp){
-					if(j==8){
+					if(j==7){
 						currMaze[i][j].makeWall(2);
 						currMaze[i][j].makeNoWall(0);
 					}else{
@@ -70,7 +70,7 @@ public class Generator {
 						currMaze[i][j].makeNoWall(2);
 					}
 				}else{
-					if(j==8){
+					if(j==7){
 						currMaze[i][j].makeNoWall(2);
 					}else{
 						currMaze[i][j].makeNoWall(0);
@@ -85,7 +85,7 @@ public class Generator {
 		// populate neigh
 		for(int i = 0; i<mSize; i++){
 			for(int j = 0; j<mSize; j++){
-				if((i==8 || i==9) && (j==8 || j==9))continue;
+				if((i==7 || i==8) && (j==7 || j==8))continue;
 				if(i==0 && j==0)continue;
 				djgraphs.add(new ConnGroup(currMaze[i][j]));
 			}
@@ -93,14 +93,14 @@ public class Generator {
 		// make walls
 		for(int i = 0; i<mSize; i++){
 			for(int j = 0; j<mSize; j++){
-				if((i==8 || i==9) && (j==8 || j==9))continue;
+				if((i==7 || i==8) && (j==7 || j==8))continue;
 				if(i==0 && j==0)continue;
 				//top
-				if(!(j == mSize-1 || (i==8||i==9) && j==7)){
+				if(!(j == mSize-1 || (i==7||i==8) && j==6)){
 					currMaze[i][j].makeWall(0);
 				}
 				//right
-				if(!(i == mSize-1 || (j==8||j==9) && i==7)){
+				if(!(i == mSize-1 || (j==7||j==8) && i==6)){
 					currMaze[i][j].makeWall(3);
 				}
 			}
@@ -126,9 +126,9 @@ public class Generator {
 			Node n1 = currMaze[x][y];
 			if(n1.nb[dir]!=null)continue;
 			if(x==0 && dir==1)continue;
-			if(x==17 && dir==3)continue;
+			if(x==15 && dir==3)continue;
 			if(y==0 && dir==2)continue;
-			if(y==17 && dir==0)continue;
+			if(y==15 && dir==0)continue;
 			Node n2 = null;
 			switch(dir){
 			case 0:
@@ -144,6 +144,7 @@ public class Generator {
 				n2 = currMaze[x+1][y];
 				break;
 			}
+			if((n1.x==7 || n1.x==8) && (n1.y==7 || n1.y==8) || (n2.x==7 || n2.x==8) && (n2.y==7 || n2.y==8))continue;
 			boolean lc = n1.nb[(dir+1)%4]==null || n2.nb[(dir+1)%4]==null || n1.nb[(dir+1)%4].nb[dir]==null;
 			boolean rc = n1.nb[(dir+3)%4]==null || n2.nb[(dir+3)%4]==null || n1.nb[(dir+3)%4].nb[dir]==null;
 			if(lc && rc){

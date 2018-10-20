@@ -37,13 +37,13 @@ public class Tester {
 	
 	public static void runFullMaze(long seed){
 		Node[][] realmaze, algomaze;
-		Algorithm algo = new Algorithm(18);
+		Algorithm algo = new Algorithm(16);
 		algomaze = algo.currMaze;
-		realmaze = Generator.generateMaze(seed, 18, 5); //2312300, 123890, 2312300, 73498
+		realmaze = Generator.generateMaze(seed, 16, 5); //2312300, 123890, 2312300, 73498
 		clearInterface();
 		setMaze(realmaze);
 		setAlgo(algomaze, algo);
-		path1.setPath(Algorithm.bfs(realmaze, realmaze[0][0], realmaze[8][8]));
+		path1.setPath(Algorithm.bfs(realmaze, realmaze[0][0], realmaze[7][7]));
 		updateGame();
 		
 		Node currn = algo.currNode;
@@ -57,7 +57,7 @@ public class Tester {
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, checkOnLeft(realmaze, currn, n), checkOnRight(realmaze, currn, n));
 			currn = n;
-			path2.setPath(Algorithm.bfs(algomaze, algomaze[0][0], algomaze[8][8]));
+			path2.setPath(Algorithm.bfs(algomaze, algomaze[0][0], algomaze[7][7]));
 			updateGame();
 		}
 		
@@ -70,7 +70,7 @@ public class Tester {
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, checkOnLeft(realmaze, currn, n), checkOnRight(realmaze, currn, n));
 			currn = n;
-			path2.setPath(Algorithm.bfs(algomaze, algomaze[0][0], algomaze[8][8]));
+			path2.setPath(Algorithm.bfs(algomaze, algomaze[0][0], algomaze[7][7]));
 			updateGame();
 		}
 		
@@ -105,7 +105,7 @@ public class Tester {
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.getContentPane().setLayout(null);
 		window.setResizable(false);
-		window.getContentPane().setPreferredSize(new Dimension(2500,1500));
+		window.getContentPane().setPreferredSize(new Dimension(2000,1000));
 		window.pack();
 		window.setVisible(true);
 	}
@@ -233,7 +233,7 @@ public class Tester {
 			this.x_size = x_size;
 			this.y_size = y_size;
 			n = null;
-			this.setBounds(x,y,x_size*18,y_size*18);
+			this.setBounds(x,y,x_size*16,y_size*16);
 			this.setLayout(null);
 			this.setOpaque(false);
 		}
@@ -253,9 +253,9 @@ public class Tester {
 				Node currn = n[i];
 				Node nextn = n[i+1];
 				int x1 = currn.x*x_size + x_size/2;
-				int y1 = (18-currn.y)*y_size - y_size/2;
+				int y1 = (16-currn.y)*y_size - y_size/2;
 				int x2 = nextn.x*x_size + x_size/2;
-				int y2 = (18-nextn.y)*y_size - y_size/2;
+				int y2 = (16-nextn.y)*y_size - y_size/2;
 				g2.drawLine(x1, y1, x2, y2);
 			}
 		}
@@ -271,7 +271,7 @@ public class Tester {
 			this.x_size = x_size;
 			this.y_size = y_size;
 			this.algo = algo;
-			this.setBounds(x,y,x_size*18,y_size*18);
+			this.setBounds(x,y,x_size*16,y_size*16);
 			this.setLayout(null);
 			this.setOpaque(false);
 		}
@@ -283,7 +283,7 @@ public class Tester {
 			g2.setStroke(new BasicStroke(5));
 			g2.setColor(Color.MAGENTA);
 			int x1 = algo.currNode.x*x_size+x_size/2-x_size/4;
-			int y1 = (18-algo.currNode.y)*y_size-y_size/2-y_size/4;
+			int y1 = (16-algo.currNode.y)*y_size-y_size/2-y_size/4;
 			int x2 = x_size/2;
 			int y2 = y_size/2;
 			g2.drawRect(x1, y1, x2, y2);
