@@ -145,6 +145,7 @@ public class Generator {
 				break;
 			}
 			if((n1.x==7 || n1.x==8) && (n1.y==7 || n1.y==8) || (n2.x==7 || n2.x==8) && (n2.y==7 || n2.y==8))continue;
+			if((n1.x==0 && n1.y==0) || (n2.x==0 && n2.y==0))continue;
 			boolean lc = n1.nb[(dir+1)%4]==null || n2.nb[(dir+1)%4]==null || n1.nb[(dir+1)%4].nb[dir]==null;
 			boolean rc = n1.nb[(dir+3)%4]==null || n2.nb[(dir+3)%4]==null || n1.nb[(dir+3)%4].nb[dir]==null;
 			if(lc && rc){

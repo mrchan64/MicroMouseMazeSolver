@@ -33,6 +33,7 @@ public class Tester {
 			runFullMaze(seed);
 			counter++;
 		}
+//		runFullMaze(594232);
 	}
 	
 	public static void runFullMaze(long seed){
