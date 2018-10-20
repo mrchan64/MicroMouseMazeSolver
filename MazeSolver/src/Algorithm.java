@@ -88,7 +88,7 @@ public class Algorithm {
 			Node in = toVisit.get(i);
 			int score;
 			if(dfme[in.x][in.y]==Integer.MAX_VALUE || dftarg[in.x][in.y]==Integer.MAX_VALUE)score = Integer.MAX_VALUE;
-			else score = (dfme[in.x][in.y]+1)*(dftarg[in.x][in.y]);
+			else score = (dfme[in.x][in.y]+2)*(dftarg[in.x][in.y]); // decreased the weight of closeness to me
 			if(score<lowestscore){
 				lowestscore = score;
 				lowestnode = in;

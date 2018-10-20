@@ -54,7 +54,7 @@ public class Generator {
 						currMaze[i][j].makeNoWall(1);
 					}
 				}else{
-					if(j==8){
+					if(i==8){
 						currMaze[i][j].makeNoWall(1);
 					}else{
 						currMaze[i][j].makeNoWall(3);

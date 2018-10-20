@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 
@@ -17,13 +19,28 @@ public class Tester {
 	static int y_off = 100;
 	static int x_size = 50;
 	static int y_size = 50;
+	
+	static int wait_step = 50;
+	static int wait_between = 500;
 
 	public static void main(String[] args) {
+		makeDisplay();
+		int counter = 1;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		while(true){
+			long seed = (long)(Math.random()*10000000);
+			System.out.println("Run "+counter+ " | Seed " + seed + " | Started "+dtf.format(LocalDateTime.now()));
+			runFullMaze(seed);
+			counter++;
+		}
+	}
+	
+	public static void runFullMaze(long seed){
 		Node[][] realmaze, algomaze;
 		Algorithm algo = new Algorithm(18);
 		algomaze = algo.currMaze;
-		realmaze = Generator.generateMaze(73498, 18, 5); //2312300, 123890, 2312300
-		makeDisplay();
+		realmaze = Generator.generateMaze(seed, 18, 5); //2312300, 123890, 2312300, 73498
+		clearInterface();
 		setMaze(realmaze);
 		setAlgo(algomaze, algo);
 		path1.setPath(Algorithm.bfs(realmaze, realmaze[0][0], realmaze[8][8]));
@@ -31,9 +48,11 @@ public class Tester {
 		
 		Node currn = algo.currNode;
 		
+		wait_ms(wait_between);
+		
 		// this part is finding the center of the maze
 		while(!algo.verify()){
-			wait_ms(100);
+			wait_ms(wait_step);
 			Node n = algo.nextToMidSquare();
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, checkOnLeft(realmaze, currn, n), checkOnRight(realmaze, currn, n));
@@ -42,11 +61,11 @@ public class Tester {
 			updateGame();
 		}
 		
-		wait_ms(1000);
+		wait_ms(wait_between);
 		
 		// this part is verifying the shortest path;
 		while(algo.bfsUncertain()>0){
-			wait_ms(100);
+			wait_ms(wait_step);
 			Node n = algo.nextFinalizeSquare();
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, checkOnLeft(realmaze, currn, n), checkOnRight(realmaze, currn, n));
@@ -55,11 +74,11 @@ public class Tester {
 			updateGame();
 		}
 		
-		wait_ms(1000);
+		wait_ms(wait_between);
 		
 		// this part is going home;
 		while(!algo.verifyHome()){
-			wait_ms(100);
+			wait_ms(wait_step);
 			Node n = algo.nextGoHomeSquare();
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, false, false);
@@ -67,18 +86,18 @@ public class Tester {
 			updateGame();
 		}
 		
-		wait_ms(1000);
+		wait_ms(wait_between);
 		
 		// this part is going to target;
 		while(!algo.verify()){
-			wait_ms(100);
+			wait_ms(wait_step);
 			Node n = algo.nextGoTargSquare();
 			n = realmaze[n.x][n.y];
 			algo.visitSquare(n, false, false);
 			currn = n;
 			updateGame();
 		}
-		System.out.println("Done!");
+//		System.out.println("Done!");
 	}
 	
 	public static void makeDisplay(){
@@ -154,10 +173,15 @@ public class Tester {
 	}
 	
 	public static void wait_ms(long timems){
-		long time = System.currentTimeMillis();
-		while(System.currentTimeMillis()-timems<time){
-			int[][] i = new int[1000][1000];
+		try {
+			Thread.sleep(timems);
+		} catch (InterruptedException e) {
+			System.out.println("Can't sleep?");
 		}
+//		long time = System.currentTimeMillis();
+//		while(System.currentTimeMillis()-timems<time){
+//			int[][] i = new int[1000][1000];
+//		}
 	}
 	
 	public static class Square extends JPanel{
